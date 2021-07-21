@@ -52,8 +52,6 @@ public class PrimaryController {
         String line;
         
         // TODO: Parse emotion_predicted into an ArrayList storing {time, [emotion information]}
-        // Positional Data for reference:
-        // 0 - Angry, 1 - Disgust, 2 - Fear, 3 - Happy, 4 - Neutral, 5 - Sad, 6 - Surprise
         String emotion_predicted = "Unknown";
         
         try{
@@ -65,8 +63,12 @@ public class PrimaryController {
               System.out.println("Exception in reading output"+ e.toString());
         }
         
+        // Store emotion in object
+        EmotionState currState = new EmotionState(emotion_predicted);
+        
         // Update the emotion shown in the report
-        mReportController.setEmotionLabel(emotion_predicted);
+        mReportController.setEmotionLabel("Feeling\n" + currState.getTopPrediction());
+        mReportController.setEmotionGraphic(currState.getTopPrediction());
         
         //App.setRoot(("report"));
         App.setReport();
