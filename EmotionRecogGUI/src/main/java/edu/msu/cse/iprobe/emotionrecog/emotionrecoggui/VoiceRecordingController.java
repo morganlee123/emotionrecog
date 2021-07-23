@@ -12,6 +12,6 @@ public class VoiceRecordingController {
     
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
+        App.setPrimary();
     }
 }

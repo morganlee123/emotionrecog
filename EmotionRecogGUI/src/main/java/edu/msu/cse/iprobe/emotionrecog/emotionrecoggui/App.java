@@ -16,6 +16,7 @@ public class App extends Application {
     private static Scene scene;
     private static Stage mStage;
     
+    private static Parent primaryControllerLoaded;
     private static Parent reportControllerLoaded;
     
     @Override
@@ -27,7 +28,8 @@ public class App extends Application {
         FXMLLoader reportControllerLoader = new FXMLLoader(App.class.getResource("report.fxml"));
         //
        
-        scene = new Scene(primaryLoader.load(), 640, 480);
+        Parent loadedPrimary = primaryLoader.load();
+        scene = new Scene(loadedPrimary, 640, 480);
         
         // Initialize the report page state
         Parent loadedReport = reportControllerLoader.load();
@@ -38,6 +40,7 @@ public class App extends Application {
         // Pass the reportcontroller to the primary screen so that it may set information
         pc.setReportController(rc);
         this.reportControllerLoaded = loadedReport;
+        this.primaryControllerLoaded = loadedPrimary;
         
         
         stage.setScene(scene);
@@ -48,6 +51,10 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
+    static void setPrimary() throws IOException {
+        scene.setRoot(primaryControllerLoaded);
+    }
+    
     /*
     * Report needs its own set function since it's initialized in this main class. 
     * This is so that we can maintain the state of the emotion

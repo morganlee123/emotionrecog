@@ -18,6 +18,7 @@ public class EmotionState {
     
     private Map<Double, String> internalRepresentation;
     private String top, nexttop;
+    private int timestamp;
     
     public EmotionState(String ir)
     {
@@ -28,13 +29,14 @@ public class EmotionState {
        
         // Tokenize
         String[] tokens = ir.split(",");
-        internalRepresentation.put(Double.parseDouble(tokens[0]), "Anger");
-        internalRepresentation.put(Double.parseDouble(tokens[1]), "Disgust");
-        internalRepresentation.put(Double.parseDouble(tokens[2]), "Fear");
-        internalRepresentation.put(Double.parseDouble(tokens[3]), "Happy");
-        internalRepresentation.put(Double.parseDouble(tokens[4]), "Neutral");
-        internalRepresentation.put(Double.parseDouble(tokens[5]), "Sad");
-        internalRepresentation.put(Double.parseDouble(tokens[6]), "Surprise");
+        timestamp = Integer.parseInt(tokens[0]);
+        internalRepresentation.put(Double.parseDouble(tokens[1]), "Anger");
+        internalRepresentation.put(Double.parseDouble(tokens[2]), "Disgust");
+        internalRepresentation.put(Double.parseDouble(tokens[3]), "Fear");
+        internalRepresentation.put(Double.parseDouble(tokens[4]), "Happy");
+        internalRepresentation.put(Double.parseDouble(tokens[5]), "Neutral");
+        internalRepresentation.put(Double.parseDouble(tokens[6]), "Sad");
+        internalRepresentation.put(Double.parseDouble(tokens[7]), "Surprise");
         
         // Sort, get top and next top variables set
         TreeMap<Double, String> rankedInternal = new TreeMap<Double, String>(internalRepresentation);

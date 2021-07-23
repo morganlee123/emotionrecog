@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +19,7 @@ public class PrimaryController {
     
     
     @FXML
-    private String openFile() throws IOException, InterruptedException {
+    private void openFile() throws IOException, InterruptedException {
         // TODO: Need to add code to run the python tkinter program
         
         // Select the file from a FileChooser
@@ -51,29 +52,34 @@ public class PrimaryController {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stdout,StandardCharsets.UTF_8));
         String line;
         
-        // TODO: Parse emotion_predicted into an ArrayList storing {time, [emotion information]}
-        String emotion_predicted = "Unknown";
+        ArrayList<String> emotion_predicted = new ArrayList<String>();
         
         try{
            while((line = reader.readLine()) != null){
-                //System.out.println("stdout: "+ line);
-                emotion_predicted = line;
+               //System.out.println("stdout: "+ line);
+                emotion_predicted.add(line);
            }
         }catch(IOException e){
               System.out.println("Exception in reading output"+ e.toString());
         }
         
+        ArrayList<EmotionState> emotionStates = new ArrayList<EmotionState>();
         // Store emotion in object
-        EmotionState currState = new EmotionState(emotion_predicted);
+        for (String i : emotion_predicted)
+        {
+            EmotionState currState = new EmotionState(i);
+            emotionStates.add(currState);
+        } 
         
-        // Update the emotion shown in the report
-        mReportController.setEmotionLabel("Feeling\n" + currState.getTopPrediction());
-        mReportController.setEmotionGraphic(currState.getTopPrediction());
+        
+        // TODO: Make sure this reflect the scrolled timestamp in the waveform. Update the emotion shown in the report
+        // TODO: Remove the hardcoded first entry
+        mReportController.setEmotionLabel("Feeling\n" + emotionStates.get(0).getTopPrediction());
+        mReportController.setEmotionGraphic(emotionStates.get(0).getTopPrediction());
         
         //App.setRoot(("report"));
         App.setReport();
-        
-        return emotion_predicted;
+
     }
     
     @FXML
