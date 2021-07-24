@@ -19,7 +19,7 @@ import javax.net.ssl.X509TrustManager;
 
 /*
 * Big TODOS
-* 1. Fix the wavesurfer.js in the webview so the actual waveform graphic shows up. Might be a problem with scaling idk. CHeck options tab on wavesurfer website
+* 1. Fix the wavesurfer.js in the webview so the actual waveform graphic shows up. Reloading the page helps, also fix CORS file retrieval
 * 2. Show results in the advanced view as a bar graph
 * 3. Constantly check the wavesurfer timestamp and change graphics to correlate to the EmotionState in the list at the specified time if within that range.
 * 4. Get the voice recorder interface working
@@ -36,16 +36,20 @@ public class ReportController {
     
     @FXML
     private WebView waveform;
-    
+
     @FXML
     private void initialize()
     {
         WebEngine engine = waveform.getEngine();
+        // TODO: Host the index.js on localhost python server
         File file = new File("/Users/morgan/Work/MSU/IPROBE/research/EmotionRecogGUIDev/EmotionRecogGUI/src/main/index.html");
-
+        
         engine.load(file.toURI().toString());
         
         // TODO: Write a monitoring function that checks for the timestamp using the wavesurfer.js getCurrentTime() function in the wavehelper.js
+        // TODO: The most recent value is stored in <div id="result">. Just store as float and then truncate past the decimal 5.23 -> 5
+        // Correlate that retrieved time to the ArrayList of EmotionStates. Might need to pass this from PrimaryController to here
+        
     }
     
     @FXML
