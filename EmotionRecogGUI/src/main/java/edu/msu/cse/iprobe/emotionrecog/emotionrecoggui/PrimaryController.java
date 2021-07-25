@@ -76,8 +76,8 @@ public class PrimaryController {
         } 
         
        
-        mReportController.setEmotionLabel("Feeling\n" + emotionStates.get(0).getTopPrediction());
-        mReportController.setEmotionGraphic(emotionStates.get(0).getTopPrediction());
+        //mReportController.setEmotionLabel(emotionStates.get(0).getTopPrediction());
+        //mReportController.setEmotionGraphic(emotionStates.get(0).getTopPrediction());
         
         mReportController.giveEmotionStates(emotionStates);
         
