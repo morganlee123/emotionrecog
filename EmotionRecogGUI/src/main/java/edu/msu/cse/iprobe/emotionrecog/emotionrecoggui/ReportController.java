@@ -5,17 +5,18 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+import org.w3c.dom.Document;
 
 /*
 * Big TODOS
@@ -26,6 +27,8 @@ import javax.net.ssl.X509TrustManager;
 * 5. Set up confirmation wavesurfer screen, and cache file locally
 * 6. Pray
 */
+
+
 public class ReportController {
 
     @FXML
@@ -37,18 +40,61 @@ public class ReportController {
     @FXML
     private WebView waveform;
 
+    private String timeString;
+    
+  
     @FXML
     private void initialize()
     {
         WebEngine engine = waveform.getEngine();
         // TODO: Host the index.js on localhost python server
-        File file = new File("/Users/morgan/Work/MSU/IPROBE/research/EmotionRecogGUIDev/EmotionRecogGUI/src/main/index.html");
+        //File file = new File("/Users/morgan/Work/MSU/IPROBE/research/EmotionRecogGUIDev/EmotionRecogGUI/src/main/index.html");
         
-        engine.load(file.toURI().toString());
+        /*
+        engine.getLoadWorker().stateProperty().addListener(
+        new ChangeListener<State>() {
+          @Override
+          public void changed(ObservableValue ov, State oldState, State newState) {
+            if (newState == Worker.State.SUCCEEDED) {
+              Document doc = engine.getDocument();
+              System.out.println("Change thread started");
+              new Thread(() -> {  
+                while(true)
+                  {
+                      try {
+                          //System.out.println("doc changed");
+                          Document docu = waveform.getEngine().getDocument();
+                          timeString = docu.getElementById("result").getTextContent();
+                          //System.out.println(test);
+                        } catch (Exception ex) {
+                          ex.printStackTrace();
+                        }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                  }
+                });
+
+            }
+          }
+
+        });*/
+     
+        
+        
+        //engine.load(file.toURI().toString());
+        engine.load("http://localhost:8000/index.html");
+        
         
         // TODO: Write a monitoring function that checks for the timestamp using the wavesurfer.js getCurrentTime() function in the wavehelper.js
         // TODO: The most recent value is stored in <div id="result">. Just store as float and then truncate past the decimal 5.23 -> 5
         // Correlate that retrieved time to the ArrayList of EmotionStates. Might need to pass this from PrimaryController to here
+        engine.reload();
+        
+
         
     }
     
