@@ -63,6 +63,10 @@ public class EmotionState {
         return internalRepresentation;
     }
     
+    public int getTimestamp()
+    {
+        return timestamp;
+    }
     
     
 }

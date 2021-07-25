@@ -75,11 +75,11 @@ public class PrimaryController {
             emotionStates.add(currState);
         } 
         
-        
-        // TODO: Make sure this reflect the scrolled timestamp in the waveform. Update the emotion shown in the report
-        // TODO: Remove the hardcoded first entry
+       
         mReportController.setEmotionLabel("Feeling\n" + emotionStates.get(0).getTopPrediction());
         mReportController.setEmotionGraphic(emotionStates.get(0).getTopPrediction());
+        
+        mReportController.giveEmotionStates(emotionStates);
         
         //App.setRoot(("report"));
         App.setReport();
